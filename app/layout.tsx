@@ -26,29 +26,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <head>
-          <meta
-            name="google-site-verification"
-            content="6PxxrtSIjNZLkaAHTd1n_BTznEAEkzLWzG0B_VlyQ6c"
-          />
-          <Script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-YGSBKQNVGJ"
-            strategy="afterInteractive"
-          />
-          <Script id="google-analytics" strategy="afterInteractive">
-            {`
+      <head>
+        <meta
+          name="google-site-verification"
+          content="6PxxrtSIjNZLkaAHTd1n_BTznEAEkzLWzG0B_VlyQ6c"
+        />
+        <Script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-YGSBKQNVGJ"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-YGSBKQNVGJ');
           `}
-          </Script>
-        </head>
-
+        </Script>
+      </head>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
         {children}
         <Analytics />
       </body>

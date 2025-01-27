@@ -23,7 +23,7 @@ export default function Home() {
       <div className="bg-gray-100 items-start h-screen flex flex-col items-center gap-[5rem] p-[5rem]">
         <h1 className="text-xl">AI Capstone Generator</h1>
 
-        <div className="flex gap-4 items-start">
+        <div className="flex gap-4 items-start flex-col">
           <Generator setGeneratedTitle={setGeneratedTitle} />
           <Output generatedTitle={generatedTitle} />
         </div>
