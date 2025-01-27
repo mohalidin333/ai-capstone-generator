@@ -13,7 +13,7 @@ export default function Output({
   generatedTitle: TitleData | null;
 }) {
   return (
-    <div className="bg-white p-4 rounded shadow-sm w-[500px] flex flex-col gap-4">
+    <div className="bg-white p-4 rounded shadow-sm w-full flex flex-col gap-4">
       <h1 className="mb-4">Output</h1>
       {/*  */}
 
