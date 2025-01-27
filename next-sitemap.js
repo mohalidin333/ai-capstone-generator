@@ -1,5 +1,5 @@
 module.exports = {
-    siteUrl: "https://ai-capstone-generator.vercel.app/",
+    siteUrl: "http://localhost:3000/sitemap.xml",
     generateRobotsTxt: true,
   };
   
