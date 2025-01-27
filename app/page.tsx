@@ -20,7 +20,7 @@ export default function Home() {
   return (
     <>
       <SEO />
-      <div className="bg-gray-100 items-start h-screen flex flex-col items-center gap-[5rem] p-[5rem]">
+      <div className="bg-gray-100 items-start h-screen flex flex-col items-center gap-[5rem] p-[5rem] overflow-y-auto">
         <h1 className="text-xl">AI Capstone Generator</h1>
 
         <div className="flex gap-4 items-start flex-col">
