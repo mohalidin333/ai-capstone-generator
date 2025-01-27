@@ -86,6 +86,7 @@ export default function Generator({
           onChange={(e) => setIndustry(e.target.value)}
           className="focus:outline-none border border-sky-500 p-2 rounded"
         >
+          <option value="Industry" selected disabled>Industry</option>
           <option value="Education">Education</option>
           <option value="Retail">Retail</option>
           <option value="Agriculture">Agriculture</option>
@@ -106,6 +107,7 @@ export default function Generator({
           onChange={(e) => setApplication(e.target.value)}
           className="focus:outline-none border border-sky-500 p-2 rounded"
         >
+          <option value="Application" selected disabled>Application</option>
           <option value="Web">Web</option>
           <option value="Desktop">Desktop</option>
           <option value="Mobile">Mobile</option>
