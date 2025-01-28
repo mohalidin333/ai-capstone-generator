@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "AI Capstone Generator",
-  description: "Generate a capstone that tailored",
+  description: "Generate a capstone that tailored to your needs",
 };
 
 export default function RootLayout({
@@ -27,6 +27,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
         <meta
           name="google-site-verification"
           content="6PxxrtSIjNZLkaAHTd1n_BTznEAEkzLWzG0B_VlyQ6c"

@@ -39,13 +39,13 @@ export default function SEO() {
               "@type": "Person",
               name: "AI Capstone Generator",
               url: "ai-capstone-generator.vercel.app",
-              logo: "../favicon.ico",
+              logo: "/favicon.ico",
             },
             publisher: {
               "@type": "Person",
               name: "AI Capstone Generator",
               url: "ai-capstone-generator.vercel.app",
-              logo: "../favicon.ico",
+              logo: "/favicon.ico",
             },
           }),
         }}
