@@ -34,7 +34,7 @@ export async function POST(request: Request) {
       {
         model: "llama-3.3-70b-versatile", // Groq model name
         messages: [systemMessage, userMessage],
-        temperature: 0.2,
+        temperature: 1.0,
         response_format: { type: "json_object" },
       },
       {
