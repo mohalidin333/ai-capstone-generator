@@ -39,7 +39,7 @@ export default function Generator({
     // check if data is valid
     if (!industry || !application) {
       alert("Please fill out all fields");
-      
+
       return;
     }
 
@@ -67,10 +67,13 @@ export default function Generator({
       setTimer(10);
       setGeneratedTitle(parsedData);
     } catch (error) {
+      setLoading(false);
       console.error("Generation failed:", error);
       alert(
         `Generation failed: ${
-          error instanceof Error ? error.message : "Unknown error"
+          error instanceof Error
+            ? error.message + ". Please try again!"
+            : "Unknown error. Please try again!"
         }`
       );
     }
@@ -86,7 +89,9 @@ export default function Generator({
           onChange={(e) => setIndustry(e.target.value)}
           className="focus:outline-none border border-sky-500 p-2 rounded"
         >
-          <option value="Industry" selected disabled>Industry</option>
+          <option value="Industry" selected disabled>
+            Industry
+          </option>
           <option value="Education">Education</option>
           <option value="Retail">Retail</option>
           <option value="Agriculture">Agriculture</option>
@@ -107,7 +112,9 @@ export default function Generator({
           onChange={(e) => setApplication(e.target.value)}
           className="focus:outline-none border border-sky-500 p-2 rounded"
         >
-          <option value="Application" selected disabled>Application</option>
+          <option value="Application" selected disabled>
+            Application
+          </option>
           <option value="Web">Web</option>
           <option value="Desktop">Desktop</option>
           <option value="Mobile">Mobile</option>
