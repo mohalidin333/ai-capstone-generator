@@ -159,7 +159,9 @@ export default function Generator({
               TechStack{" "}
               <span className="text-muted-foreground">(Optional)</span>
             </Label>
-            <p className="text-[13px] text-muted-foreground">Please match it to the target industry and project type.</p>
+            <p className="text-[13px] text-muted-foreground">
+              Please match it to the target industry and project type.
+            </p>
             <Input
               onChange={(e) => setTechStack(e.target.value)}
               placeholder="E.g. React, Node.js"
@@ -184,6 +186,7 @@ export default function Generator({
         )}
 
         <a
+          target="_blank"
           href="https://www.tiktok.com/@secretdev333"
           className="text-[13px] font-medium hover:underline text-muted-foreground"
         >
