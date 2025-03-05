@@ -9,22 +9,23 @@ export async function POST(request: Request) {
       role: "system",
       content: `As an AI Capstone Generator, follow these rules:
         1. Provide high quality and unique titles for IT related thesis or capstone.
-        2. Return a JSON object with: :
+        2. Return a JSON object with:
         {title: "title"},
         {techonologies: ["frontend", "backend", "database"]},
         {target: "target audience"},
         {features: ["feature1", "feature2", "feature3", and so on"]},
         3. make sure that technologies, target and features are related to the industry application, and title.
-        4. make sure to generate 1.
-        5. make sure to generate different titles if the same industry and application is already generated in the past.
-        6. make sure to follow the rules above also include no intro and no conclusion.
-        7. do not repeat response.
+        4. Short Discription of the Capstone
+        5. make sure to generate 1.
+        6. make sure to generate different titles if the same industry and application is already generated in the past.
+        7. make sure to follow the rules above also include no intro and no conclusion.
+        8. do not repeat response.
         `,
     };
 
     const userMessage = {
       role: "user",
-      content: `write a IT or Computer Science Capstone Title that is related to ${data.industry} industry and what is the target audience of the title and techonlogies used if using ${data.application}`,
+      content: `write a IT or Computer Science Capstone Title that is related to ${data.industry} industry and what is the target audience of the title and ${data.techStack} or what technologies are used if using ${data.application} (if there's no ${data.techStach} is empty)`,
     };
 
     // change using axios
