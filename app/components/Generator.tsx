@@ -111,7 +111,7 @@ export default function Generator({
         <div className="grid w-full items-center gap-4">
           {/* industry */}
           <div className="flex flex-col space-y-3">
-            <Label htmlFor="industry">Target Industry</Label>
+            <Label htmlFor="industry">Industry</Label>
             <Select onValueChange={(value) => setIndustry(value)}>
               <SelectTrigger id="industry">
                 <SelectValue placeholder="Industry" />
@@ -138,10 +138,10 @@ export default function Generator({
 
           {/* application */}
           <div className="flex flex-col space-y-3">
-            <Label htmlFor="application">Project</Label>
+            <Label htmlFor="project">Project</Label>
             <Select onValueChange={(value) => setApplication(value)}>
-              <SelectTrigger id="application">
-                <SelectValue placeholder="Application" />
+              <SelectTrigger id="project">
+                <SelectValue placeholder="Project" />
               </SelectTrigger>
               <SelectContent position="popper">
                 <SelectItem value="Random">Random</SelectItem>
