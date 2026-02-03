@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Capstone Generator",
+  title: "Capstone Idea Studio",
   description: "Generate a capstone that tailored to your needs",
 };
 

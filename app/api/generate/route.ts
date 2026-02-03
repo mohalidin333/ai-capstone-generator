@@ -7,25 +7,30 @@ export async function POST(request: Request) {
 
     const systemMessage = {
       role: "system",
-      content: `As an AI Capstone Generator, follow these rules:
-        1. Provide high quality and unique titles for IT related thesis or capstone.
-        2. Return a JSON object with:
-        {title: "title"},
-        {techonologies: ["frontend", "backend", "database"]},
-        {target: "target audience"},
-        {features: ["feature1", "feature2", "feature3", and so on"]},
-        3. make sure that technologies, target and features are related to the industry application, and title.
-        4. Short Discription of the Capstone
-        5. make sure to generate 1.
-        6. make sure to generate different titles if the same industry and application is already generated in the past.
-        7. make sure to follow the rules above also include no intro and no conclusion.
-        8. do not repeat response.
-        `,
+      content: `You are an AI Capstone Generator. Output only valid JSON, with no markdown, no backticks, and no extra text.
+Return exactly one JSON object with this schema:
+{
+  "title": "string",
+  "description": "string",
+  "technologies": ["string", "string", "string"],
+  "target": "string",
+  "features": ["string", "string", "string"]
+}
+Rules:
+1) The title must clearly reflect a real, urgent need of the target client and hint at the solution.
+2) The description is 1-2 concise sentences and matches the title.
+3) technologies, target, and features must align to the target client, platform type, and title.
+4) Features are specific and practical, no duplicates.
+5) Produce unique results across repeated requests.`,
     };
 
     const userMessage = {
       role: "user",
-      content: `write a IT or Computer Science Capstone Title that is related to ${data.industry} industry and what is the target audience of the title and ${data.techStack} or what technologies are used if using ${data.application} (if there's no ${data.techStach} is empty)`,
+      content: `Create a Computer Science capstone title for the target client: ${data.targetClient}.
+Platform type: ${data.platformType}.
+Preferred tech stack (optional): ${data.techStack || "none provided"}.
+Include emerging technologies: ${data.includeEmergingTech}.
+Return only the JSON object that fits the required schema.`,
     };
 
     // change using axios
@@ -33,7 +38,7 @@ export async function POST(request: Request) {
     const response = await axios.post(
       "https://api.groq.com/openai/v1/chat/completions",
       {
-        model: "llama-3.3-70b-versatile", // Groq model name
+        model: "openai/gpt-oss-120b",
         messages: [systemMessage, userMessage],
         temperature: 1.0,
         response_format: { type: "json_object" },
