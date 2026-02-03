@@ -101,17 +101,23 @@ export default function Generator({
   }
 
   return (
-    <Card className="w-full max-w-[500px]">
-      <CardHeader>
-        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+    <Card className="w-full border-slate-200/60 bg-white/80 shadow-lg shadow-indigo-100/40 backdrop-blur">
+      <CardHeader className="space-y-2">
+        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight text-slate-900">
           Generate Capstone
         </h3>
+        <p className="text-sm text-slate-500">
+          Share your focus areas so we can create a capstone idea with an
+          on-point scope.
+        </p>
       </CardHeader>
       <CardContent>
-        <div className="grid w-full items-center gap-4">
+        <div className="grid w-full items-center gap-5">
           {/* industry */}
           <div className="flex flex-col space-y-3">
-            <Label htmlFor="industry">Industry</Label>
+            <Label htmlFor="industry" className="text-slate-700">
+              Industry
+            </Label>
             <Select onValueChange={(value) => setIndustry(value)}>
               <SelectTrigger id="industry">
                 <SelectValue placeholder="Industry" />
@@ -138,7 +144,9 @@ export default function Generator({
 
           {/* application */}
           <div className="flex flex-col space-y-3">
-            <Label htmlFor="project">Project</Label>
+            <Label htmlFor="project" className="text-slate-700">
+              Project
+            </Label>
             <Select onValueChange={(value) => setApplication(value)}>
               <SelectTrigger id="project">
                 <SelectValue placeholder="Project" />
@@ -155,11 +163,11 @@ export default function Generator({
 
           {/* technology */}
           <div className="flex flex-col space-y-3">
-            <Label htmlFor="application">
+            <Label htmlFor="application" className="text-slate-700">
               TechStack{" "}
               <span className="text-muted-foreground">(Optional)</span>
             </Label>
-            <p className="text-[13px] text-muted-foreground">
+            <p className="text-[13px] text-slate-500">
               Please match it to the target industry and project type.
             </p>
             <Input
@@ -172,13 +180,13 @@ export default function Generator({
       <CardFooter className="flex flex-col gap-4">
         {/* limit to avoid spam */}
         {timer > 0 ? (
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-slate-500">
             You can generate another title in {timer} seconds
           </p>
         ) : (
           <Button
             onClick={handleGenerate}
-            className={`${loading && "pointer-events-none opacity-50"} w-full`}
+            className={`${loading && "pointer-events-none opacity-50"} w-full bg-gradient-to-r from-indigo-500 to-blue-500 text-white shadow-md shadow-indigo-200 transition hover:from-indigo-600 hover:to-blue-600`}
           >
             Generate
             {loading && <Loader2 className="animate-spin ml-2" size={20} />}
