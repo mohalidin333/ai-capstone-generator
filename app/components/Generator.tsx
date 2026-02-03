@@ -33,11 +33,15 @@ export default function Generator({
 }: {
   setGeneratedTitle: React.Dispatch<React.SetStateAction<TitleData | null>>;
 }) {
-  const [industry, setIndustry] = useState<string>("");
-  const [application, setApplication] = useState<string>("");
+  const [targetClient, setTargetClient] = useState<string>("");
+  const [platformType, setPlatformType] = useState<string>("");
   const [techStack, setTechStack] = useState<string>("");
+  const [includeEmergingTech, setIncludeEmergingTech] =
+    useState<string>("No");
   const [loading, setLoading] = useState<boolean>(false);
   const [timer, setTimer] = useState<number>(0);
+  const [showRetryModal, setShowRetryModal] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   React.useEffect(() => {
     setInterval(() => {
@@ -46,6 +50,32 @@ export default function Generator({
       }
     }, 1000);
   }, [loading]);
+
+  const loadCachedTitle = () => {
+    if (typeof window === "undefined") {
+      return null;
+    }
+
+    const cached = localStorage.getItem("capstone:last-title");
+    if (!cached) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(cached) as TitleData;
+    } catch (error) {
+      console.error("Failed to parse cached title:", error);
+      return null;
+    }
+  };
+
+  const saveCachedTitle = (titleData: TitleData) => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    localStorage.setItem("capstone:last-title", JSON.stringify(titleData));
+  };
 
   async function handleGenerate() {
     setGeneratedTitle({
@@ -56,7 +86,7 @@ export default function Generator({
       features: [],
     });
     // check if data is valid
-    if (!industry || !application) {
+    if (!targetClient || !platformType) {
       alert("Please fill out all fields");
 
       return;
@@ -64,10 +94,16 @@ export default function Generator({
 
     try {
       setLoading(true);
-      console.log(techStack);
+      setShowRetryModal(false);
+      setErrorMessage("");
 
       const res = await axios.post("/api/generate", {
-        data: { industry, application, techStack },
+        data: {
+          targetClient,
+          platformType,
+          techStack,
+          includeEmergingTech,
+        },
       });
 
       // Verify response structure
@@ -86,17 +122,23 @@ export default function Generator({
       setLoading(false);
       setTimer(10);
       setGeneratedTitle(parsedData);
+      saveCachedTitle(parsedData);
       console.log(res.data);
     } catch (error) {
       setLoading(false);
+      const cachedTitle = loadCachedTitle();
+      if (cachedTitle) {
+        setGeneratedTitle(cachedTitle);
+      }
+
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Unknown error. Please try again!";
+
+      setErrorMessage(message);
+      setShowRetryModal(true);
       console.error("Generation failed:", error);
-      alert(
-        `Generation failed: ${
-          error instanceof Error
-            ? error.message + ". Please try again!"
-            : "Unknown error. Please try again!"
-        }`
-      );
     }
   }
 
@@ -116,11 +158,11 @@ export default function Generator({
           {/* industry */}
           <div className="flex flex-col space-y-3">
             <Label htmlFor="industry" className="text-slate-700">
-              Industry
+              Target Client
             </Label>
-            <Select onValueChange={(value) => setIndustry(value)}>
+            <Select onValueChange={(value) => setTargetClient(value)}>
               <SelectTrigger id="industry">
-                <SelectValue placeholder="Industry" />
+                <SelectValue placeholder="Target Client" />
               </SelectTrigger>
               <SelectContent position="popper">
                 <SelectItem value="Random">Random</SelectItem>
@@ -145,11 +187,11 @@ export default function Generator({
           {/* application */}
           <div className="flex flex-col space-y-3">
             <Label htmlFor="project" className="text-slate-700">
-              Project
+              Platform Type
             </Label>
-            <Select onValueChange={(value) => setApplication(value)}>
+            <Select onValueChange={(value) => setPlatformType(value)}>
               <SelectTrigger id="project">
-                <SelectValue placeholder="Project" />
+                <SelectValue placeholder="Platform Type" />
               </SelectTrigger>
               <SelectContent position="popper">
                 <SelectItem value="Random">Random</SelectItem>
@@ -161,14 +203,35 @@ export default function Generator({
             </Select>
           </div>
 
+          <div className="flex flex-col space-y-3">
+            <Label htmlFor="emerging-tech" className="text-slate-700">
+              Include emerging technologies?
+            </Label>
+            <p className="text-[13px] text-slate-500">
+              Examples: AI, ML, QR Code, SMS, Blockchain, MCP.
+            </p>
+            <Select
+              value={includeEmergingTech}
+              onValueChange={(value) => setIncludeEmergingTech(value)}
+            >
+              <SelectTrigger id="emerging-tech">
+                <SelectValue placeholder="No" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                <SelectItem value="Yes">Yes</SelectItem>
+                <SelectItem value="No">No</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
           {/* technology */}
           <div className="flex flex-col space-y-3">
             <Label htmlFor="application" className="text-slate-700">
-              TechStack{" "}
+              Preferred Tech Stack{" "}
               <span className="text-muted-foreground">(Optional)</span>
             </Label>
             <p className="text-[13px] text-slate-500">
-              Please match it to the target industry and project type.
+              Please match it to the target client and platform type.
             </p>
             <Input
               onChange={(e) => setTechStack(e.target.value)}
@@ -195,12 +258,53 @@ export default function Generator({
 
         <a
           target="_blank"
-          href="https://www.tiktok.com/@secretdev333"
-          className="text-[13px] font-medium hover:underline text-muted-foreground"
+          href="https://www.facebook.com/mohalidin.lidasan.3"
+          className="text-[13px] font-medium text-muted-foreground hover:underline"
+          rel="noreferrer"
         >
-          Tiktok@secretdev333
+          Need a developer to build it? Hire me on Facebook.
+        </a>
+        <a
+          target="_blank"
+          href="https://www.tiktok.com/@mohalidintech"
+          className="text-[13px] font-medium text-muted-foreground hover:underline"
+          rel="noreferrer"
+        >
+          Or reach me on TikTok @mohalidintech.
         </a>
       </CardFooter>
+
+      {showRetryModal ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 px-4">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+            <h4 className="text-lg font-semibold text-slate-900">
+              We couldn&apos;t generate a new title.
+            </h4>
+            <p className="mt-2 text-sm text-slate-600">
+              {errorMessage ||
+                "The request failed. You can retry right away."}
+            </p>
+            <div className="mt-4 flex flex-wrap justify-end gap-3">
+              <Button
+                variant="outline"
+                className="border-slate-200"
+                onClick={() => setShowRetryModal(false)}
+              >
+                Close
+              </Button>
+              <Button
+                onClick={() => {
+                  setShowRetryModal(false);
+                  handleGenerate();
+                }}
+                className="bg-indigo-600 text-white hover:bg-indigo-700"
+              >
+                Retry
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </Card>
   );
 }

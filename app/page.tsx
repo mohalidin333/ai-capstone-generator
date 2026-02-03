@@ -31,11 +31,11 @@ export default function Home() {
             </span>
             <div className="space-y-3">
               <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight text-slate-900 lg:text-5xl">
-                AI Capstone Generator
+                Capstone Idea Studio
               </h1>
               <p className="mx-auto max-w-2xl text-base text-slate-600 md:text-lg">
-                Spark standout project ideas with curated industries, project
-                types, and tech stacks tailored to your goals.
+                Spark standout project ideas with curated target clients,
+                platform types, and tech stacks tailored to your goals.
               </p>
             </div>
             <div className="flex flex-wrap items-center justify-center gap-3 text-sm text-slate-600">
