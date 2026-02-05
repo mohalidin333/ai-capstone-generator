@@ -25,6 +25,7 @@ interface TitleData {
   description: string;
   technologies: string[];
   target: string;
+  complexity: string;
   features: string[];
 }
 
@@ -35,6 +36,7 @@ export default function Generator({
 }) {
   const [targetClient, setTargetClient] = useState<string>("");
   const [platformType, setPlatformType] = useState<string>("");
+  const [projectComplexity, setProjectComplexity] = useState<string>("");
   const [techStack, setTechStack] = useState<string>("");
   const [includeEmergingTech, setIncludeEmergingTech] =
     useState<string>("No");
@@ -83,10 +85,11 @@ export default function Generator({
       description: "",
       technologies: [],
       target: "",
+      complexity: "",
       features: [],
     });
     // check if data is valid
-    if (!targetClient || !platformType) {
+    if (!targetClient || !platformType || !projectComplexity) {
       alert("Please fill out all fields");
 
       return;
@@ -101,6 +104,7 @@ export default function Generator({
         data: {
           targetClient,
           platformType,
+          projectComplexity,
           techStack,
           includeEmergingTech,
         },
@@ -166,20 +170,47 @@ export default function Generator({
               </SelectTrigger>
               <SelectContent position="popper">
                 <SelectItem value="Random">Random</SelectItem>
-                <SelectItem value="Education">Education</SelectItem>
-                <SelectItem value="Retail">Retail</SelectItem>
-                <SelectItem value="Agriculture">Agriculture</SelectItem>
-                <SelectItem value="Construction">Construction</SelectItem>
-                <SelectItem value="Healthcare">Healthcare</SelectItem>
+                <SelectItem value="Education and EdTech">
+                  Education and EdTech
+                </SelectItem>
+                <SelectItem value="Retail and E-commerce">
+                  Retail and E-commerce
+                </SelectItem>
+                <SelectItem value="Agriculture and Food Production">
+                  Agriculture and Food Production
+                </SelectItem>
+                <SelectItem value="Construction and Engineering">
+                  Construction and Engineering
+                </SelectItem>
+                <SelectItem value="Healthcare and Telemedicine">
+                  Healthcare and Telemedicine
+                </SelectItem>
                 <SelectItem value="Financial services">
                   Financial services
                 </SelectItem>
                 <SelectItem value="Real Estate">Real Estate</SelectItem>
-                <SelectItem value="Consulting">Consulting</SelectItem>
-                <SelectItem value="Sales and Marketing">
-                  Sales and Marketing
+                <SelectItem value="Government and Public Service">
+                  Government and Public Service
+                </SelectItem>
+                <SelectItem value="Logistics and Supply Chain">
+                  Logistics and Supply Chain
                 </SelectItem>
                 <SelectItem value="Manufacturing">Manufacturing</SelectItem>
+                <SelectItem value="Hospitality and Tourism">
+                  Hospitality and Tourism
+                </SelectItem>
+                <SelectItem value="Media and Entertainment">
+                  Media and Entertainment
+                </SelectItem>
+                <SelectItem value="Human Resources and Recruitment">
+                  Human Resources and Recruitment
+                </SelectItem>
+                <SelectItem value="Legal and Compliance">
+                  Legal and Compliance
+                </SelectItem>
+                <SelectItem value="Non-profit and Community Services">
+                  Non-profit and Community Services
+                </SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -199,6 +230,22 @@ export default function Generator({
                 <SelectItem value="Mobile">Mobile</SelectItem>
                 <SelectItem value="Desktop">Desktop</SelectItem>
                 <SelectItem value="IoT">IoT</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div className="flex flex-col space-y-3">
+            <Label htmlFor="complexity" className="text-slate-700">
+              Project Complexity
+            </Label>
+            <Select onValueChange={(value) => setProjectComplexity(value)}>
+              <SelectTrigger id="complexity">
+                <SelectValue placeholder="Project Complexity" />
+              </SelectTrigger>
+              <SelectContent position="popper">
+                <SelectItem value="Small">Small</SelectItem>
+                <SelectItem value="Mid">Mid</SelectItem>
+                <SelectItem value="Advance">Advance</SelectItem>
               </SelectContent>
             </Select>
           </div>
