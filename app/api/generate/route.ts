@@ -3,7 +3,10 @@ import axios from "axios";
 
 type TitleData = {
   title: string;
-  description: string;
+  description: {
+    Problem: string;
+    Solution: string;
+  };
   technologies: string[];
   target: string;
   complexity: string;
@@ -17,9 +20,15 @@ function normalizeTitleData(payload: unknown): TitleData | null {
 
   const candidate = payload as Partial<TitleData>;
 
+  const description = candidate.description as
+    | { Problem?: unknown; Solution?: unknown }
+    | undefined;
+
   if (
     typeof candidate.title !== "string" ||
-    typeof candidate.description !== "string" ||
+    !description ||
+    typeof description.Problem !== "string" ||
+    typeof description.Solution !== "string" ||
     typeof candidate.target !== "string" ||
     typeof candidate.complexity !== "string" ||
     !Array.isArray(candidate.technologies) ||
@@ -30,7 +39,10 @@ function normalizeTitleData(payload: unknown): TitleData | null {
 
   return {
     title: candidate.title,
-    description: candidate.description,
+    description: {
+      Problem: description.Problem,
+      Solution: description.Solution,
+    },
     target: candidate.target,
     complexity: candidate.complexity,
     technologies: candidate.technologies.filter(
@@ -52,7 +64,10 @@ export async function POST(request: Request) {
 Return exactly one JSON object with this schema:
 {
   "title": "string",
-  "description": "Problem: string Solution: string",
+  "description": {
+    "Problem": "string",
+    "Solution": "string"
+  },
   "technologies": ["string", "string", "string"],
   "target": "string",
   "complexity": "Small | Mid | Advance",
@@ -60,7 +75,7 @@ Return exactly one JSON object with this schema:
 }
 Rules:
 1) The title must clearly reflect a real, urgent need of the target client and hint at the solution.
-2) The description must be comprehensive in 2-4 sentences and always contain both labels exactly: "Problem:" and "Solution:".
+2) description.Problem and description.Solution must each be comprehensive in 1-2 sentences.
 3) technologies, target, complexity, and features must align to the target client, platform type, and title.
 4) Features represent core features, must be specific and practical, and have no duplicates.
 5) Produce unique results across repeated requests.`,
