@@ -53,8 +53,31 @@ export default function Home() {
           </header>
 
           <div className="grid w-full items-start gap-6 lg:grid-cols-[1fr_1fr]">
-            <Generator setGeneratedTitle={setGeneratedTitle} />
-            <Output generatedTitle={generatedTitle} />
+            <section className="flex flex-col gap-3">
+              <div className="space-y-1 px-1">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-rose-500">
+                  Problem
+                </p>
+                <p className="text-sm text-slate-500">
+                  Define who you are building for and the type of platform they
+                  need.
+                </p>
+              </div>
+              <Generator setGeneratedTitle={setGeneratedTitle} />
+            </section>
+
+            <section className="flex flex-col gap-3">
+              <div className="space-y-1 px-1">
+                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-emerald-600">
+                  Solution
+                </p>
+                <p className="text-sm text-slate-500">
+                  Review an AI-generated capstone concept with scope,
+                  technologies, and features.
+                </p>
+              </div>
+              <Output generatedTitle={generatedTitle} />
+            </section>
           </div>
         </div>
       </main>
