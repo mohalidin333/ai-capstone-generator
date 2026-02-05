@@ -31,18 +31,14 @@ interface TitleData {
 
 function getErrorMessage(error: unknown): string {
   if (axios.isAxiosError(error)) {
-    return (
-      (error.response?.data as { error?: string })?.error ||
-      error.message ||
-      "Request failed. Please try again."
-    );
+    return "API request failed. Please try again.";
   }
 
   if (error instanceof Error) {
-    return error.message;
+    return "Request failed. Please try again.";
   }
 
-  return "Unknown error. Please try again!";
+  return "Request failed. Please try again.";
 }
 
 export default function Generator({
