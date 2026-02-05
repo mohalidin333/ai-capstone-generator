@@ -10,6 +10,7 @@ interface TitleData {
   description: string;
   technologies: string[];
   target: string;
+  complexity: string;
   features: string[];
 }
 

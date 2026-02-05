@@ -8,6 +8,7 @@ type TitleData = {
   description: string;
   technologies: string[];
   target: string;
+  complexity: string;
   features: string[];
 };
 
@@ -50,14 +51,14 @@ export default function Output({
             <div className="flex items-center gap-2 text-slate-600">
               <Users2 size={15} />
               <small className="text-sm font-medium leading-none">
-                {generatedTitle?.target}
+                {generatedTitle?.target} · {generatedTitle?.complexity}
               </small>
             </div>
 
             {/* features */}
             <div className="flex flex-col gap-2">
               <label className="text-sm font-bold uppercase tracking-wide text-slate-400">
-                Features
+                Core Features
               </label>
               <ul className="flex flex-col gap-2">
                 {generatedTitle?.features?.map(

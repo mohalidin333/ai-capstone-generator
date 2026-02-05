@@ -11,16 +11,17 @@ export async function POST(request: Request) {
 Return exactly one JSON object with this schema:
 {
   "title": "string",
-  "description": "string",
+  "description": "Problem: string Solution: string",
   "technologies": ["string", "string", "string"],
   "target": "string",
-  "features": ["string", "string", "string"]
+  "complexity": "Small | Mid | Advance",
+  "features": ["string", "string", "string", "string"]
 }
 Rules:
 1) The title must clearly reflect a real, urgent need of the target client and hint at the solution.
-2) The description is 1-2 concise sentences and matches the title.
-3) technologies, target, and features must align to the target client, platform type, and title.
-4) Features are specific and practical, no duplicates.
+2) The description must be comprehensive in 2-4 sentences and always contain both labels exactly: "Problem:" and "Solution:".
+3) technologies, target, complexity, and features must align to the target client, platform type, and title.
+4) Features represent core features, must be specific and practical, and have no duplicates.
 5) Produce unique results across repeated requests.`,
     };
 
@@ -28,6 +29,7 @@ Rules:
       role: "user",
       content: `Create a Computer Science capstone title for the target client: ${data.targetClient}.
 Platform type: ${data.platformType}.
+Project complexity: ${data.projectComplexity}.
 Preferred tech stack (optional): ${data.techStack || "none provided"}.
 Include emerging technologies: ${data.includeEmergingTech}.
 Return only the JSON object that fits the required schema.`,
