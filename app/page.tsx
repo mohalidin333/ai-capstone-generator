@@ -7,7 +7,10 @@ import SEO from "./components/SEO";
 
 interface TitleData {
   title: string;
-  description: string;
+  description: {
+    Problem: string;
+    Solution: string;
+  };
   technologies: string[];
   target: string;
   complexity: string;

@@ -22,7 +22,10 @@ import { Input } from "@/components/ui/input";
 
 interface TitleData {
   title: string;
-  description: string;
+  description: {
+    Problem: string;
+    Solution: string;
+  };
   technologies: string[];
   target: string;
   complexity: string;
@@ -94,7 +97,10 @@ export default function Generator({
   async function handleGenerate() {
     setGeneratedTitle({
       title: "",
-      description: "",
+      description: {
+        Problem: "",
+        Solution: "",
+      },
       technologies: [],
       target: "",
       complexity: "",

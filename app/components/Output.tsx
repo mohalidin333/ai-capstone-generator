@@ -5,7 +5,10 @@ import { ChevronRight, Users2 } from "lucide-react";
 
 type TitleData = {
   title: string;
-  description: string;
+  description: {
+    Problem: string;
+    Solution: string;
+  };
   technologies: string[];
   target: string;
   complexity: string;
@@ -43,9 +46,24 @@ export default function Output({
             </ul>
 
             {/* description */}
-            <p className="leading-7 text-slate-600">
-              {generatedTitle?.description}
-            </p>
+            <div className="space-y-3">
+              <div>
+                <label className="text-sm font-bold uppercase tracking-wide text-slate-400">
+                  Problem
+                </label>
+                <p className="leading-7 text-slate-600">
+                  {generatedTitle?.description?.Problem}
+                </p>
+              </div>
+              <div>
+                <label className="text-sm font-bold uppercase tracking-wide text-slate-400">
+                  Solution
+                </label>
+                <p className="leading-7 text-slate-600">
+                  {generatedTitle?.description?.Solution}
+                </p>
+              </div>
+            </div>
 
             {/* target */}
             <div className="flex items-center gap-2 text-slate-600">
