@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const siteUrl = "https://ai-capstone-generator.vercel.app";
+const siteUrl = "https://capstoneidea.vercel.app";
 const siteName = "Capstone Idea Studio";
 const description =
   "Generate AI-powered capstone and thesis ideas tailored to your preferred domain, level, and project requirements.";
