@@ -29,6 +29,22 @@ interface TitleData {
   features: string[];
 }
 
+function getErrorMessage(error: unknown): string {
+  if (axios.isAxiosError(error)) {
+    return (
+      (error.response?.data as { error?: string })?.error ||
+      error.message ||
+      "Request failed. Please try again."
+    );
+  }
+
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return "Unknown error. Please try again!";
+}
+
 export default function Generator({
   setGeneratedTitle,
 }: {
@@ -110,14 +126,11 @@ export default function Generator({
         },
       });
 
-      // Verify response structure
-      if (!res.data?.choices?.[0]?.message?.content) {
+      if (!res.data?.data) {
         throw new Error("Invalid API response structure");
       }
 
-      // Parse the JSON content
-      const rawContent = res.data.choices[0].message.content;
-      const parsedData: TitleData = JSON.parse(rawContent);
+      const parsedData: TitleData = res.data.data;
 
       if (!parsedData.title) {
         throw new Error("Title field missing in response");
@@ -135,10 +148,7 @@ export default function Generator({
         setGeneratedTitle(cachedTitle);
       }
 
-      const message =
-        error instanceof Error
-          ? error.message
-          : "Unknown error. Please try again!";
+      const message = getErrorMessage(error);
 
       setErrorMessage(message);
       setShowRetryModal(true);

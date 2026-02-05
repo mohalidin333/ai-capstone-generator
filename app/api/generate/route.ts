@@ -1,6 +1,47 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 
+type TitleData = {
+  title: string;
+  description: string;
+  technologies: string[];
+  target: string;
+  complexity: string;
+  features: string[];
+};
+
+function normalizeTitleData(payload: unknown): TitleData | null {
+  if (!payload || typeof payload !== "object") {
+    return null;
+  }
+
+  const candidate = payload as Partial<TitleData>;
+
+  if (
+    typeof candidate.title !== "string" ||
+    typeof candidate.description !== "string" ||
+    typeof candidate.target !== "string" ||
+    typeof candidate.complexity !== "string" ||
+    !Array.isArray(candidate.technologies) ||
+    !Array.isArray(candidate.features)
+  ) {
+    return null;
+  }
+
+  return {
+    title: candidate.title,
+    description: candidate.description,
+    target: candidate.target,
+    complexity: candidate.complexity,
+    technologies: candidate.technologies.filter(
+      (item): item is string => typeof item === "string"
+    ),
+    features: candidate.features.filter(
+      (item): item is string => typeof item === "string"
+    ),
+  };
+}
+
 export async function POST(request: Request) {
   try {
     const { data } = await request.json();
@@ -53,8 +94,64 @@ Return only the JSON object that fits the required schema.`,
       }
     );
 
-    return NextResponse.json(response.data);
+    const rawContent = response.data?.choices?.[0]?.message?.content;
+
+    if (!rawContent || typeof rawContent !== "string") {
+      return NextResponse.json(
+        {
+          error:
+            "The model returned an unexpected response format. Please try again.",
+        },
+        { status: 502 }
+      );
+    }
+
+    let parsedContent: unknown;
+    try {
+      parsedContent = JSON.parse(rawContent);
+    } catch {
+      return NextResponse.json(
+        {
+          error:
+            "The model returned invalid JSON content. Please try again.",
+        },
+        { status: 502 }
+      );
+    }
+
+    const normalizedData = normalizeTitleData(parsedContent);
+    if (!normalizedData) {
+      return NextResponse.json(
+        {
+          error:
+            "The generated result is missing required fields. Please retry.",
+        },
+        { status: 502 }
+      );
+    }
+
+    return NextResponse.json({ data: normalizedData });
   } catch (error) {
-    return NextResponse.json({ error: error });
+    if (axios.isAxiosError(error)) {
+      const upstreamMessage =
+        (error.response?.data as { error?: { message?: string } })?.error
+          ?.message ||
+        error.response?.statusText ||
+        error.message;
+
+      return NextResponse.json(
+        {
+          error: `Generation API failed: ${upstreamMessage}`,
+        },
+        { status: error.response?.status || 500 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        error: "Unexpected server error while generating a capstone title.",
+      },
+      { status: 500 }
+    );
   }
 }
